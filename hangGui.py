@@ -3,10 +3,17 @@ from tkinter import ttk
 from randomwordgenerator import randomwordgenerator
 import random
 
-def setGeussVar():
-    letter = textEntry.get()
+def stringVarUpdate():
+    letter = str(textEntry.get())
     textEntry.delete(0, 'end')
     geussLetter.set(letter)
+
+def returnGeussVar():
+    x = geussLetter.get()
+    return x
+
+def setHiddenWordVar(hiddenList):
+    hiddenWordVar.set(hiddenList)
 
 def play(word, geussWord):
     geuss = str(input("Enter a letter: "))
@@ -32,7 +39,7 @@ def hiddenWordList(selectedWord):
     hideWord = []
     for z in range(len(selectedWord)):
         hideWord.append("-")
-    #geussedWord.set(geussing)
+    hiddenWordVar.set(hideWord)
     return hideWord
     
 
@@ -99,6 +106,7 @@ lettersGeussedCorrect.config(font=("Courier", 44)) #<<----changes font size
 button1 = ttk.Button(mainFrame, text='New Game', command=None)
 button1.grid(column=5, row=5, sticky=E)
 
+
 #label to diplay attempts
 attemptedGeusses = ttk.Label(mainFrame, textvariable=failedAttempts)
 attemptedGeusses.grid(column=4, row=0, sticky=(N, W))
@@ -112,9 +120,9 @@ wrongGeusses.config(font=("Courier", 44)) #<<--------changes font size
 #
 #label to display previous geusses
 #text entery to submit geusses
-textEntry = ttk.Entry(mainFrame, textvariable=setGeussVar)
-#textEntry.bind(<Enter>, enter)<<<------WTF?!?!?!?!
+textEntry = ttk.Entry(mainFrame, textvariable=stringVarUpdate)
 textEntry.grid(column=4, row=2, sticky=W)
+textEntry.bind("<Return>", lambda e: stringVarUpdate())
 
 
 
@@ -124,15 +132,15 @@ textEntry.grid(column=4, row=2, sticky=W)
 #
 #get random word and store it in a list
 randWord = randomWord()
-print(randWord)
+#print(randWord)
 
 #initialize the hidden word list
 hiddenWord = hiddenWordList(randWord)
-print(hiddenWord)
+#print(hiddenWord)
 
 #set the maximum allowed geusses (per game)
 maxGeusses = len(randWord) - 1
-print(maxGeusses)
+#print(maxGeusses)
 root.mainloop()
 geusses = 0
 count = 0
@@ -140,10 +148,11 @@ while hiddenWord != randomWord:
     wrongLetters = []
     #update hidden array here??
     if geusses < maxGeusses:
-        hiddenWordVar.set(hiddenWord)
+        setHiddenWordVar(hiddenWord)
         wrongGeussesVar.set(wrongLetters)
         failedAttempts.set(geusses)
-        #letter = geussLetter.get()
+        letter = geussLetter.get()
+        print(letter)
         for x in randWord:
             if letter == x:
                 hiddenWord[count] = letter
