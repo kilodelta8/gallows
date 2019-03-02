@@ -3,25 +3,6 @@ from tkinter import ttk
 from randomwordgenerator import randomwordgenerator
 import random
 
-def stringVarUpdate():
-    letter = str(textEntry.get())
-    textEntry.delete(0, 'end')
-    geussLetter.set(letter)
-
-def returnGeussVar():
-    x = geussLetter.get()
-    return x
-
-def setHiddenWordVar(hiddenList):
-    hiddenWordVar.set(hiddenList)
-
-def play(word, geussWord):
-    geuss = str(input("Enter a letter: "))
-    count = 0
-    for x in word:
-        if geuss == x:
-            geussWord[count] = geuss
-        count += 1
 
 def randomWord():
     try:
@@ -34,12 +15,87 @@ def randomWord():
         randNum = random.randrange(0, (len(backupList)))
         return backupList[randNum]
 
+#<<<-----------------------New function development-------------------->>>
+#Setters
+def updateGallows(img): # Main imagery
+    pass
+
+def initHiddenWordList(word):
+    hidden = []
+    for x in word:
+        hidden.append("-")
+    hiddenWordList.set(hidden)
+
+def updateUsedLettersList(): # ['e', 'f', 'etc']
+    pass
+
+def updateAttemptsMadeList(): # ['1', '/', '8']
+    pass
+#Getters
+def getHiddenList():
+    #hiddenList = []
+    hiddenList = hiddenWordList.get()
+    return hiddenList
+
+def getRemainingAttempts():
+    pass
+
+def getWordBeingGeussed():
+    pass
+#Initialize/New Game
+#Text Entry Box drives entire game
+def gameDriver():
+    geuss = str(textEntry.get()) #get letter from text entry
+    textEntry.delete(0, 'end') #clear text entry box
+    word = randomWord() #get a randomword, this needs to go somewhere else
+    #initHiddenWordList(word)  This and above line needs moved to an init
+    #attempts = int(getRemainingAttempts()) #get the current attempts made
+    for letter in word:
+        if geuss == letter:
+            continue
+            #update globals
+            #update photo
+        else:
+            continue
+            #update globals
+    print(geuss)
+    
+    
+#<<<----------^^^^^--------New function development--------^^^^^------->>>
+
+
+def textEntryFetch():#F
+    letter = str(textEntry.get())
+    textEntry.delete(0, 'end')
+    geussingLetter.set(letter)
+    print(letter)
+    return letter
+
+def returnGeussVar():
+    x = geussingLetter.get()
+    return x
+
+def setHiddenWordVar(hiddenList):
+    x = hiddenList
+    hiddenWordList.set(x)
+    print(x)
+
+def play(word, geussWord):
+    geuss = str(input("Enter a letter: "))
+    count = 0
+    for x in word:
+        if geuss == x:
+            geussWord[count] = geuss
+        count += 1
+
+
+
 #returns a list of "-", the size of the randomly selected word
-def hiddenWordList(selectedWord):
+def hiddenWordListFunc(selectedWord):
     hideWord = []
     for z in range(len(selectedWord)):
         hideWord.append("-")
-    hiddenWordVar.set(hideWord)
+    hiddenWordList.set(hideWord)
     return hideWord
     
 
@@ -57,9 +113,12 @@ root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
 
 #vars for GUI
-hiddenWordVar = StringVar()#????
+#word being geussed
+wordBeingGeussed = StringVar()
+#hidden list
+hiddenWordList = StringVar()#????
 #var to hold the amount of attempts
-geussLetter = StringVar()
+geussingLetter = StringVar()
 #var to hold wrong geussed letters
 wrongGeussesVar = StringVar()
 #var to hold the amount of attempts made
@@ -99,7 +158,7 @@ photoPreview.grid(column=0, row=0, columnspan=4, rowspan=4, sticky=W)#
 
 #correct geussed letters
 #displays the hidden word array
-lettersGeussedCorrect = ttk.Label(mainFrame, textvariable=hiddenWordVar)
+lettersGeussedCorrect = ttk.Label(mainFrame, textvariable=hiddenWordList)
 lettersGeussedCorrect.grid(column=0, row=5, columnspan=4, sticky=S)
 lettersGeussedCorrect.config(font=("Courier", 44)) #<<----changes font size
 #button for a new game
@@ -120,48 +179,16 @@ wrongGeusses.config(font=("Courier", 44)) #<<--------changes font size
 #
 #label to display previous geusses
 #text entery to submit geusses
-textEntry = ttk.Entry(mainFrame, textvariable=stringVarUpdate)
+textEntry = ttk.Entry(mainFrame, textvariable=textEntryFetch)
 textEntry.grid(column=4, row=2, sticky=W)
-textEntry.bind("<Return>", lambda e: stringVarUpdate())
+textEntry.bind("<Return>", lambda e: gameDriver())#F
 
+#global variables and global lists, mst be called with "global"
+attempts = None     #Global
+word = []           #Global
+wordHidden = []     #Global
 
-
-
-
-#Game logic/loop
-#
-#get random word and store it in a list
-randWord = randomWord()
-#print(randWord)
-
-#initialize the hidden word list
-hiddenWord = hiddenWordList(randWord)
-#print(hiddenWord)
-
-#set the maximum allowed geusses (per game)
-maxGeusses = len(randWord) - 1
-#print(maxGeusses)
 root.mainloop()
-geusses = 0
-count = 0
-while hiddenWord != randomWord:
-    wrongLetters = []
-    #update hidden array here??
-    if geusses < maxGeusses:
-        setHiddenWordVar(hiddenWord)
-        wrongGeussesVar.set(wrongLetters)
-        failedAttempts.set(geusses)
-        letter = geussLetter.get()
-        print(letter)
-        for x in randWord:
-            if letter == x:
-                hiddenWord[count] = letter
-            else:
-                wrongLetters.append(letter)
-                geusses += 1
-        count += 1
-
-#root.mainloop()
 
 
 
