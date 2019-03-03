@@ -12,7 +12,6 @@ from tkinter import ttk
 from randomwordgenerator import randomwordgenerator
 import random
 
-
 #fetch random word from internet, or backup text list
 def randomWord():
     try:
@@ -24,7 +23,6 @@ def randomWord():
         backupList = ['test', 'bounce', 'child', 'golf', 'whim']
         randNum = random.randrange(0, (len(backupList))) #choose random word from backup list
         return backupList[randNum]    #return random word
-
 
 #Setters
 def updateGallows(img): # Main imagery
@@ -44,26 +42,24 @@ def listToString(listToConvert):
         newString += x           #add to string
     return newString             #return the string
 
-
-def updateWrongGeusses(letter): #add wrong geuss to worng geuss list/string
+#adds each geuss that is incorrect to the wrongGeuss StringVar()
+def updateWrongGeusses(letter): 
     word2 = wrongGeussesVar.get() #get the current string/list
-    newWord = word2 + letter  #add old list and wrong geuss to new string
+    newWord = word2 + letter  #add old list and wrong geuss param to new string
     wrongGeussesVar.set(newWord) #set new list/string to StringVar
 
+#updates the attempts failed at the top of window
+def updateAttempts():            
+    attempts = int(failedAttempts.get())    #fetch the StringVar() and convert to an int
+    attempts -= 1                           #decrement by 1
+    failedAttempts.set(attempts)            #set the StringVar() to the new value
 
-def updateAttempts():            #displaying but not updating
-    attempts = int(failedAttempts.get())
-    attempts -= 1
-    failedAttempts.set(attempts)
-
-
+#sets the hidden list to start with all "-"'s
 def initHiddenWordList(word):#for gui
-    hidden = ''
-    for x in word:
-        hidden += '-'
-    hiddenWordList.set(hidden)
-
-
+    hidden = ''                    #init empty string
+    for x in word:                 #iter through word param
+        hidden += '-'              #for each iter add a "-" to the string 
+    hiddenWordList.set(hidden)     #set the string to the StringVar()
 
 #Initialize/New Game
 #Text Entry Box drives entire game
@@ -73,33 +69,29 @@ def gameDriver():
     wrong = stringToList(wrongGeussesVar.get()) #get the current wrong geuss list
     geuss = str(textEntry.get())                #get letter from text entry box
     textEntry.delete(0, 'end')                  #clear text entry box
-    print(secretWord)
+    #print(secretWord)
     for i, x in enumerate(secretWord): #iter over secretWord with a counter
         if geuss == x:                 #if geuss equals letter x at index i
-            #print(i, x)
             hidden[i] = geuss          #set index i of hidden list to geuss
     if geuss not in secretWord:
         updateAttempts()               #update attemps left
         wrong.append(geuss)            #add invalid geuss to wrong geuss list
-    #convert list back to string for StringVar()
-    hiddenWordList.set(listToString(hidden))
-    wrongGeussesVar.set(listToString(wrong))
+    hiddenWordList.set(listToString(hidden)) #convert list back to string for StringVar()
+    wrongGeussesVar.set(listToString(wrong)) #convert list back to string for StringVar()
     #root.update_idletasks()#<--------<<<-??????????
     if hidden == secretWord:
-        print("You win!")
+        wrong.append(" YOU WIN!!!!")
 
-    
+#init all variables and the such when the script first executes ad when button pressed
 def gameStartSetup():
-    newWord = randomWord()
-    word.set(newWord)
-    initHiddenWordList(newWord)
-    failedAttempts.set('8')
-    wrongGeussesVar.set('')
+    newWord = randomWord()        #generate a random word
+    word.set(newWord)             #set StringVar to randWord
+    initHiddenWordList(newWord)   #set hidden word list to size of randWord
+    failedAttempts.set('8')       #set failed attempts to 8
+    wrongGeussesVar.set('')       #set wrong geusses to empty
     #update_idletasks(mainFrame)<--------<<<-??????????
-    print("gameStartSetup() function hit.....")
+    #print("gameStartSetup() function hit.....") #alert me via CLI this func executed
     
-#<<<----------^^^^^--------New function development--------^^^^^------->>>
-
 #using an 8 column by 6 row grid??
 #images are 400x400
 
@@ -166,7 +158,6 @@ lettersGeussedCorrect.config(font=("Courier", 25)) #<<----changes font size
 button1 = ttk.Button(mainFrame, text='New Game', command=gameStartSetup)
 button1.grid(column=5, row=5, sticky=E)
 
-
 #label to diplay attempts
 attemptedGeusses = ttk.Label(mainFrame, textvariable=failedAttempts)
 attemptedGeusses.grid(column=4, row=0, sticky=(N, W))
@@ -182,10 +173,10 @@ wrongGeusses.config(font=("Courier", 15)) #<<--------changes font size
 #text entery to submit geusses
 textEntry = ttk.Entry(mainFrame, textvariable=gameDriver)
 textEntry.grid(column=4, row=2, sticky=W)
-textEntry.bind("<Return>", lambda e: gameDriver())#F
+textEntry.bind("<Return>", lambda e: gameDriver())
 
+#init the first game on startup
 gameStartSetup()
-
 root.mainloop()
 
 
