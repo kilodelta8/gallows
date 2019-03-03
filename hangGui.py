@@ -1,98 +1,93 @@
+#Gallows v1
+#02/08/2019
+#kilo.kilo.delta8@gmail.com
+#
+#Hangman type game using radnom word generation and tkinter gui.
+#I made this as a goof and because why not?  Everyone else who picks up Python does. Lol!
+#Enjoy....
+#
+
 from tkinter import *
 from tkinter import ttk
 from randomwordgenerator import randomwordgenerator
 import random
 
 
-
+#fetch random word from internet, or backup text list
 def randomWord():
     try:
-        randNum = random.randrange(0, 20)
-        num_words = 20
+        randNum = random.randrange(0, 20)        #gen random number between 1 and 20
+        num_words = 20                           #int var of 20
         wordList = randomwordgenerator.generate_random_words(n = num_words)
-        return wordList[randNum]
-    except UnicodeEncodeError:
+        return wordList[randNum]  #<-returnword from list, ^gen random word list
+    except UnicodeEncodeError:    #if the above fails
         backupList = ['test', 'bounce', 'child', 'golf', 'whim']
-        randNum = random.randrange(0, (len(backupList)))
-        return backupList[randNum]
+        randNum = random.randrange(0, (len(backupList))) #choose random word from backup list
+        return backupList[randNum]    #return random word
 
-#<<<-----------------------New function development-------------------->>>
+
 #Setters
 def updateGallows(img): # Main imagery
     pass
 
-def updateWrongGeusses(letter):
-    word2 = wrongGeussesVar.get()
-    newWord = (word2 + letter)
-    wrongGeussesVar.set(newWord)
+#converts the StringVar() string to a list, because lists are easier to update.  LOL!
+def stringToList(stringToConvert):
+    newList = []                 #init a empty list
+    for x in stringToConvert:    #iter over func param (string)
+        newList.append(x)        #add item to list
+    return newList               #return list
+
+#converts a list to a string for the StringVar()'s
+def listToString(listToConvert):
+    newString = ""               #init an empty string
+    for x in listToConvert:      #iter over list
+        newString += x           #add to string
+    return newString             #return the string
+
+
+def updateWrongGeusses(letter): #add wrong geuss to worng geuss list/string
+    word2 = wrongGeussesVar.get() #get the current string/list
+    newWord = word2 + letter  #add old list and wrong geuss to new string
+    wrongGeussesVar.set(newWord) #set new list/string to StringVar
+
 
 def updateAttempts():            #displaying but not updating
     attempts = int(failedAttempts.get())
     attempts -= 1
-    failedAttempts.set(str(attempts))
+    failedAttempts.set(attempts)
 
 
 def initHiddenWordList(word):#for gui
     hidden = ''
     for x in word:
-        hidden += '- '
+        hidden += '-'
     hiddenWordList.set(hidden)
-
-def updateHiddenWordList2(letter):#for gui
-    hiddenList = hiddenWordList.get()
-    word2 = word.get()
-    hidden = ''
-    count = 0
-    for x in word2:
-        if letter == x:
-            hidden += (letter + ' ')
-        else:
-            hidden += '- '
-        count += 1
-    hiddenWordList.set(hidden)
-
-
-def initHiddenWordListList(word):#for processing
-    hidden = []
-    for x in word:
-        hidden.append('-')
-    hiddenWordListList.set(hidden)
-
-
-def updateHiddenWordList(letter):#returns true or false
-    hidden = hiddenWordListList.get() #get the hidden word list
-    word2 = word.get()  #get the word being geussed
-    print(word2)
-    count = 0
-    boolFlag = None
-    for x in word2:
-        if letter == x:
-            boolFlag = True
-        else:
-            boolFlag = False
-        count += 1
-    hiddenWordListList.set(hidden)
-    if boolFlag == True:
-        return True
-    else:
-        return False
 
 
 
 #Initialize/New Game
 #Text Entry Box drives entire game
 def gameDriver():
-    geuss = str(textEntry.get()) #get letter from text entry
-    textEntry.delete(0, 'end') #clear text entry box
-    #word = randomWord() #get a randomword, this needs to go somewhere else
-    #initHiddenWordList(word) #This and above line needs moved to an init
-    #attempts = int(getRemainingAttempts()) #get the current attempts made
-    boolFlag = updateHiddenWordList(geuss)
-    if boolFlag == False:
-        updateWrongGeusses(geuss)
-    elif boolFlag == True:
-        updateHiddenWordList2(geuss)
-    print(boolFlag)
+    secretWord = stringToList(word.get())       #get the word being geussed adn convert to list
+    hidden = stringToList(hiddenWordList.get()) #get the current hidden word and convert to list
+    wrong = stringToList(wrongGeussesVar.get()) #get the current wrong geuss list
+    geuss = str(textEntry.get())                #get letter from text entry box
+    textEntry.delete(0, 'end')                  #clear text entry box
+    print(secretWord)
+    for i, x in enumerate(secretWord): #iter over secretWord with a counter
+        if geuss == x:                 #if geuss equals letter x at index i
+            #print(i, x)
+            hidden[i] = geuss          #set index i of hidden list to geuss
+    if geuss not in secretWord:
+        updateAttempts()               #update attemps left
+        wrong.append(geuss)            #add invalid geuss to wrong geuss list
+    #convert list back to string for StringVar()
+    hiddenWordList.set(listToString(hidden))
+    wrongGeussesVar.set(listToString(wrong))
+    #root.update_idletasks()#<--------<<<-??????????
+    if hidden == secretWord:
+        print("You win!")
+
     
 def gameStartSetup():
     newWord = randomWord()
@@ -110,7 +105,7 @@ def gameStartSetup():
 
 #GUIdev---------------------------------------------------------------<<<<<<<<<<<<
 root = Tk()
-root.title("HangPy")
+root.title("Gallows")
 #setup the main frame to hold all widgets
 mainFrame = ttk.Frame(root, padding="3 3 12 12", height=400, width=800)
 mainFrame.grid(column=0, row=0, sticky=(N, S, E, W))
