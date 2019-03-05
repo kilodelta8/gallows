@@ -3,6 +3,7 @@ buggy AF!
 3/5/19
 +find a way to switch pictures instead of ascii art
 +disable text entry upon losing game, until new game clicked
++started py2exe for V1, not yet included in github dir
 -All other 3/4/19 cleared. 
 
 

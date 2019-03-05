@@ -145,7 +145,6 @@ def updateGallows(num): # Main imagery, this will get replaced with the GIF pict
 
     '''
     )
-    print(len(gallows))
     if num == 8:
         gallowsVar.set(gallows[1])
     elif num == 7:
@@ -216,7 +215,7 @@ def gameDriver():
     wrong = stringToList(wrongGeussesVar.get()) #get the current wrong geuss list
     geuss = str(textEntry.get())                #get letter from text entry box
     textEntry.delete(0, 'end')                  #clear text entry box
-    print(secretWord)
+    #print(secretWord)
     for i, x in enumerate(secretWord): #iter over secretWord with a counter
         if geuss == x:                 #if geuss equals letter x at index i
             hidden[i] = geuss          #set index i of hidden list to geuss
