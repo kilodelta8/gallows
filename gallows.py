@@ -14,10 +14,8 @@ from tkinter import *
 from tkinter import ttk
 from randomwordgenerator import randomwordgenerator
 import random
-import gallow #gallows ascii art
 
-#global
-globCount = 0
+
 
 #fetch random word from internet, or backup text list
 def randomWord():
@@ -32,112 +30,112 @@ def randomWord():
         return backupList[randNum]    #return random word
 
 #Setters
-def updateGallows(num): # Main imagery
-    print(num)
-    backwards = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
-    gallows = (
+def updateGallows(num): # Main imagery, this will get replaced with the GIF pictures
+    #print(num)
+    backwards = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]#because Im too lazy to reorder the ascii art
+    gallows = (#tuple of ascii art
     '''
-        YOU WIN!!!            \n
-                              \n
-        GAME OVER             \n
-    play again?               \n
+        YOU WIN!!!            
+                              
+        GAME OVER             
+    play again?               
     '''
     '''
-    |||||||||||||||           \n
-    |||           |           \n
-    |||                       \n
-    |||                       \n
-    |||                       \n
-    |||                       \n
-    |||                       \n
-    |||                       \n
-    ========================  \n
+    |||||||||||||||           
+    |||           |           
+    |||                       
+    |||                       
+    |||                       
+    |||                       
+    |||                       
+    |||                       
+    ========================  
     ''',
     '''
-    |||||||||||||||           \n
-    |||           |           \n
-    |||           O           \n
-    |||                       \n
-    |||                       \n
-    |||                       \n
-    |||                       \n
-    |||                       \n
-    ========================  \n
+    |||||||||||||||           
+    |||           |           
+    |||           O           
+    |||                       
+    |||                       
+    |||                       
+    |||                       
+    |||                       
+    ========================  
     ''',
     '''
-    |||||||||||||||           \n
-    |||           |           \n
-    |||           O           \n
-    |||          ---          \n
-    |||                       \n
-    |||                       \n
-    |||                       \n
-    |||                       \n
-    ========================  \n
+    |||||||||||||||           
+    |||           |           
+    |||           O           
+    |||          ---          
+    |||                       
+    |||                       
+    |||                       
+    |||                       
+    ========================  
+    ''',
+   '''
+   |||||||||||||||           
+    |||           |           
+    |||           O           
+    |||         /---\        
+    |||                      
+    |||                       
+    |||                       
+    |||                       
+    ========================  
+    ''',
+   '''
+   |||||||||||||||           
+    |||           |           
+    |||           O           
+    |||         /---\         
+    |||        /  |  \        
+    |||                       
+    |||                       
+    |||                       
+    ========================  
     ''',
     '''
-    |||||||||||||||           \n
-    |||           |           \n
-    |||           O           \n
-    |||         /---\         \n
-    |||                       \n
-    |||                       \n
-    |||                       \n
-    |||                       \n
-    ========================  \n
+    |||||||||||||||           
+    |||           |           
+    |||           O           
+    |||         /---\         
+    |||        /  |  \        
+    |||           |           
+    |||                       
+    |||                       
+    ========================  
     ''',
     '''
-    |||||||||||||||           \n
-    |||           |           \n
-    |||           O           \n
-    |||         /---\         \n
-    |||        /  |  \        \n
-    |||                       \n
-    |||                       \n
-    |||                       \n
-    ========================  \n
+    |||||||||||||||           
+    |||           |           
+    |||           O           
+    |||         /---\         
+    |||        /  |  \        
+    |||           |           
+    |||          / \          
+    |||                       
+    ========================  
     ''',
     '''
-    |||||||||||||||           \n
-    |||           |           \n
-    |||           O           \n
-    |||         /---\         \n
-    |||        /  |  \        \n
-    |||           |           \n
-    |||                       \n
-    |||                       \n
-    ========================  \n
+    |||||||||||||||           
+    |||           |           
+    |||           O           
+    |||         /---\         
+    |||        /  |  \        
+    |||           |           
+    |||          / \          
+    |||         /   \         
+    ========================  
     ''',
     '''
-    |||||||||||||||           \n
-    |||           |           \n
-    |||           O           \n
-    |||         /---\         \n
-    |||        /  |  \        \n
-    |||           |           \n
-    |||          / \          \n
-    |||                       \n
-    ========================  \n
-    ''',
-    '''
-    |||||||||||||||           \n
-    |||           |           \n
-    |||           O           \n
-    |||         /---\         \n
-    |||        /  |  \        \n
-    |||           |           \n
-    |||          / \          \n
-    |||         /   \         \n
-    ========================  \n
-    ''',
-    '''
-        YOU LOSE!!!           \n
-                              \n
-        GAME OVER             \n
-    play again?               \n
+        YOU LOSE!!!           
+                              
+        GAME OVER             
+    play again?               
     '''
     )
-    gallowsVar.set(gallows[backwards[num + 1]])
+    gallowsVar.set(gallows[backwards[num + 1]])#set the StringVar() to gallow tuple index+1
     
 
 #converts the StringVar() string to a list, because lists are easier to update.  LOL!
@@ -200,7 +198,7 @@ def gameDriver():
     updateGallows(numAttempts())
     #root.update_idletasks()#<--------<<<-??????????
     if hidden == secretWord:
-        wrong.append(" YOU WIN!!!!")
+        wrong.append(" YOU WIN!!!!")#logic in this IF statement needs revisted hard!
         updateGallows(-1)
 
 #init all variables and the such when the script first executes ad when button pressed
