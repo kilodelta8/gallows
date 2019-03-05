@@ -2,9 +2,9 @@
 Everyone else makes a "hangman" style game, why not?  A few weeks into LaunchCode with Python gave me the idea to make my own version, and
 taking note from classmates.
 
-This script requires to PIP installs;
-  +pypandoc
-  +randomwordgenerator
+This script requires two PIP installs;
+  -pypandoc
+  -randomwordgenerator
   
 We start by fetching 20 random words from the web, with a backup list in the event the web is down.  These are stored into a list with one
 word selected by a random number generated using the random module.
