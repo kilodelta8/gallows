@@ -32,14 +32,19 @@ def randomWord():
 #Setters
 def updateGallows(num): # Main imagery, this will get replaced with the GIF pictures
     #print(num)
-    backwards = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]#because Im too lazy to reorder the ascii art
+    #backwards = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]#because Im too lazy to reorder the ascii art
     gallows = (#tuple of ascii art
     '''
+
+
+
         YOU WIN!!!            
                               
         GAME OVER             
-    play again?               
-    '''
+       play again?
+
+
+    ''',
     '''
     |||||||||||||||           
     |||           |           
@@ -129,13 +134,38 @@ def updateGallows(num): # Main imagery, this will get replaced with the GIF pict
     ========================  
     ''',
     '''
+
+
+
         YOU LOSE!!!           
                               
-        GAME OVER             
-    play again?               
+                     
+        play again?
+
+
     '''
     )
-    gallowsVar.set(gallows[backwards[num + 1]])#set the StringVar() to gallow tuple index+1
+    print(len(gallows))
+    if num == 8:
+        gallowsVar.set(gallows[1])
+    elif num == 7:
+        gallowsVar.set(gallows[2])
+    elif num == 6:
+        gallowsVar.set(gallows[3])#<<----------I really wish Python had a switch statement
+    elif num == 5:
+        gallowsVar.set(gallows[4])
+    elif num == 4:
+        gallowsVar.set(gallows[5])
+    elif num == 3:
+        gallowsVar.set(gallows[6])
+    elif num == 2:
+        gallowsVar.set(gallows[7])
+    elif num == 1:
+        gallowsVar.set(gallows[8])
+    elif num == 0:
+        gallowsVar.set(gallows[9])
+    else:    
+        gallowsVar.set(gallows[0])#set the StringVar() to gallow tuple index+1
     
 
 #converts the StringVar() string to a list, because lists are easier to update.  LOL!
@@ -186,7 +216,7 @@ def gameDriver():
     wrong = stringToList(wrongGeussesVar.get()) #get the current wrong geuss list
     geuss = str(textEntry.get())                #get letter from text entry box
     textEntry.delete(0, 'end')                  #clear text entry box
-    #print(secretWord)
+    print(secretWord)
     for i, x in enumerate(secretWord): #iter over secretWord with a counter
         if geuss == x:                 #if geuss equals letter x at index i
             hidden[i] = geuss          #set index i of hidden list to geuss
@@ -268,11 +298,13 @@ photoYouLose.image = photoYouLose # keep a reference!
 photoYouWin.image = photoYouWin # keep a reference!
 '''
 #<<<------------------------------------------->>>
-photoPreview = ttk.Label(mainFrame, textvariable=gallowsVar)#
+photoPreview = ttk.Label(mainFrame, width=50, textvariable=gallowsVar)#
 #<<<------------------------------------------->>>
 #<<<--------------------------------------------------------------->>>
 photoPreview.grid(column=0, row=0, columnspan=4, rowspan=4, sticky=(N, S, E, W))#
 #<<<--------------------------------------------------------------->>>^^^
+photoPreview.grid_propagate(False)#<--supposed to stop resizing of label widget, but fails to do so.
+                                  # I used whitespace in the gallows tuple instead.
 
 #correct geussed letters
 #displays the hidden word array

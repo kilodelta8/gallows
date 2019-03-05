@@ -1,9 +1,14 @@
 buggy AF!
 
-+dynamic label
+3/5/19
++find a way to switch pictures instead of ascii art
++disable text entry upon losing game, until new game clicked
+-All other 3/4/19 cleared. 
+
+
+3/4/19
 +game logic for slide iteration not matching
-	-int gamedriver() or
-	-the asciiArt gallows()
+	-why doesnt Python have a switch
 +stop the resizing of the window based on ascii changes
 +stop the "restarting" when user exits the application
 +the "YOU WIN" slide/ascii remains on the frame after "new game" selected
