@@ -74,7 +74,7 @@ def updateGallows(num): # Main imagery, this will get replaced with the GIF pict
     ========================  
     ''',
    '''
-   |||||||||||||||           
+    |||||||||||||||           
     |||           |           
     |||           O           
     |||         /---\        
@@ -85,7 +85,7 @@ def updateGallows(num): # Main imagery, this will get replaced with the GIF pict
     ========================  
     ''',
    '''
-   |||||||||||||||           
+    |||||||||||||||           
     |||           |           
     |||           O           
     |||         /---\         
