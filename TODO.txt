@@ -1,0 +1,9 @@
+buggy AF!
+
++dynamic label
++game logic for slide iteration not matching
+	-int gamedriver() or
+	-the asciiArt gallows()
++stop the resizing of the window based on ascii changes
++stop the "restarting" when user exits the application
++the "YOU WIN" slide/ascii remains on the frame after "new game" selected
