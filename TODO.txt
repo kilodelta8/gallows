@@ -7,3 +7,4 @@ buggy AF!
 +stop the resizing of the window based on ascii changes
 +stop the "restarting" when user exits the application
 +the "YOU WIN" slide/ascii remains on the frame after "new game" selected
++disable text entry upon losing the game, until "new game" clicked
