@@ -1,4 +1,11 @@
 3/15/19
++may need one more image as the images end on last geuss, when it should end
+ on attempt 0 and the full image.
++no further advancement with py2exe
+-All other 3/15/19 cleared.
+
+
+3/15/19
 +change text entry box state when game is lost or won
 	until new game is clicked.
 +start gallows with no body parts

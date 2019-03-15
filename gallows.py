@@ -124,9 +124,11 @@ def updateImage(num):
     Takes 1 argument as a int.
     '''
     global images
-    im = images[num]
+    im = images[num + 1]
     im.image = im
     photoPreview.configure(image = im)
+    if num == 0:
+        textEntry.config(state=DISABLED)
     
 
 def gameDriver():
@@ -152,6 +154,7 @@ def gameDriver():
     if hidden == secretWord:
         wrong.append(" YOU WIN!!!!")#logic in this IF statement needs revisted hard!
         updateImage(-1)
+        textEntry.config(state=DISABLED)
 
 
 def gameStartSetup():
@@ -165,6 +168,7 @@ def gameStartSetup():
     initHiddenWordList(newWord)   #set hidden word list to size of randWord
     failedAttempts.set('8')       #set failed attempts to 8
     wrongGeussesVar.set('')       #set wrong geusses to empty
+    textEntry.config(state=NORMAL)
     
 
 
