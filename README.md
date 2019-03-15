@@ -14,7 +14,7 @@ letters that are wrong.
 The user enters a letter via a text entry box, using the Enter key.  The entry is compared to the original random word and if the geuss
 is valid, the "-"s list is updated with the geuss.  If it is not, the wrong geuss is added to the wrong geuss label and the attempts is
 decremented by one.
-This is where the asciiArt changes.  In the future the GIFS in the resources folder will take the asciiArt's place.
+The images change in the same manner with all other functions being driven by the "gamedriver()" function
 
-This script functions as is, however buggy, it is in development and due some fine tweaking.  One day at a time.
+
 I am always down for input, collab, etc.

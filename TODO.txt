@@ -1,4 +1,11 @@
-buggy AF!
+3/15/19
++change text entry box state when game is lost or won
+	until new game is clicked.
++start gallows with no body parts
+	+add new photo
+	+change logic to coincide
++no further advancement with py2exe
+-All other 3/5/19 cleared.
 
 3/5/19
 +find a way to switch pictures instead of ascii art

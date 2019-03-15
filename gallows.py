@@ -15,13 +15,16 @@ from tkinter import ttk
 from randomwordgenerator import randomwordgenerator
 import random
 
+
+#begin the root
 root = Tk()
 root.title("Gallows")
-#setup the main frame to hold all widgets
+#setup the mainFrame Var to hold all widgets
 mainFrame = ttk.Frame(root, padding="3 3 12 12", height=400, width=800)
 mainFrame.grid(column=0, row=0, sticky=(N, S, E, W))
 
-#global
+
+#global list that holds each image init
 images = [PhotoImage(file='C:\dev\gallows\\resources\\youWin.gif'), 
     PhotoImage(file='C:\dev\gallows\\resources\\youLost.gif'), 
     PhotoImage(file='C:\dev\gallows\\resources\\008.gif'), 
@@ -33,8 +36,12 @@ images = [PhotoImage(file='C:\dev\gallows\\resources\\youWin.gif'),
     PhotoImage(file='C:\dev\gallows\\resources\\002.gif'), 
     PhotoImage(file='C:\dev\gallows\\resources\\001.gif')]
 
-#fetch random word from internet, or backup text list
+
+
 def randomWord():
+    '''
+    fetch random word from internet, or backup text list
+    '''
     try:
         randNum = random.randrange(0, 20)        #gen random number between 1 and 20
         num_words = 20                           #int var of 20
@@ -45,33 +52,54 @@ def randomWord():
         randNum = random.randrange(0, (len(backupList))) #choose random word from backup list
         return backupList[randNum]    #return random word
 
-#converts the StringVar() string to a list, because lists are easier to update.  LOL!
+
 def stringToList(stringToConvert):
+    '''
+    Converts a single word string to a list.
+    Takes 1 argument as a string.
+    '''
     newList = []                 #init a empty list
     for x in stringToConvert:    #iter over func param (string)
         newList.append(x)        #add item to list
     return newList               #return list
 
-#converts a list to a string for the StringVar()'s
+
 def listToString(listToConvert):
+    '''
+    Converts a single word list to a string.
+    Takes 1 argument as a list.
+    '''
     newString = ""               #init an empty string
     for x in listToConvert:      #iter over list
         newString += x           #add to string
     return newString             #return the string
 
-#adds each geuss that is incorrect to the wrongGeuss StringVar()
-def updateWrongGeusses(letter): 
+
+def updateWrongGeusses(letter):
+    '''
+    Updates a tkinter StringVar() with each letter that is incorrect.
+    Takes 1 argument as a char.
+    ''' 
     word2 = wrongGeussesVar.get() #get the current string/list
     newWord = word2 + letter  #add old list and wrong geuss param to new string
     wrongGeussesVar.set(newWord) #set new list/string to StringVar
 
-#updates the attempts failed at the top of window
-def updateAttempts():            
+
+def updateAttempts(): 
+    '''
+    Updates tkinter label as "AttemptsMade".
+    Takes no arguments.
+    '''           
     attempts = int(failedAttempts.get())    #fetch the StringVar() and convert to an int
     attempts -= 1                           #decrement by 1
     failedAttempts.set(attempts)            #set the StringVar() to the new value
 
+
 def numAttempts():
+    '''
+    Returns/Sets attempts made during gameplay.
+    Takes no arguments.
+    '''
     attempt = failedAttempts.get()
     if attempt == None or attempt == '':
         return 8
@@ -80,21 +108,32 @@ def numAttempts():
 
 #sets the hidden list to start with all "-"'s
 def initHiddenWordList(word):#for gui
+    '''
+    Creates a list the length of the word being geussed.
+    Takes 1 argument as a a string.
+    '''
     hidden = ''                    #init empty string
     for x in word:                 #iter through word param
         hidden += '-'              #for each iter add a "-" to the string 
     hiddenWordList.set(hidden)     #set the string to the StringVar()
 
-#Updates the image
+
 def updateImage(num):
+    '''
+    Updates the image in a tkinter label.
+    Takes 1 argument as a int.
+    '''
     global images
     im = images[num]
     im.image = im
     photoPreview.configure(image = im)
     
-#Initialize/New Game
-#Text Entry Box drives entire game
+
 def gameDriver():
+    '''
+    Drives the entire game, calling all functions each call.
+    Takes no arguments.
+    '''
     secretWord = stringToList(word.get())       #get the word being geussed adn convert to list
     hidden = stringToList(hiddenWordList.get()) #get the current hidden word and convert to list
     wrong = stringToList(wrongGeussesVar.get()) #get the current wrong geuss list
@@ -110,13 +149,16 @@ def gameDriver():
     hiddenWordList.set(listToString(hidden)) #convert list back to string for StringVar()
     wrongGeussesVar.set(listToString(wrong)) #convert list back to string for StringVar()
     updateImage(numAttempts())
-    #root.update_idletasks()#<--------<<<-??????????
     if hidden == secretWord:
         wrong.append(" YOU WIN!!!!")#logic in this IF statement needs revisted hard!
         updateImage(-1)
 
-#init all variables and the such when the script first executes ad when button pressed
+
 def gameStartSetup():
+    '''
+    Called once when app is started and when new game clicked.
+    Takes no arguments.
+    '''
     updateImage(8)
     newWord = randomWord()        #generate a random word
     word.set(newWord)             #set StringVar to randWord
@@ -124,10 +166,8 @@ def gameStartSetup():
     failedAttempts.set('8')       #set failed attempts to 8
     wrongGeussesVar.set('')       #set wrong geusses to empty
     
-#using an 8 column by 6 row grid??
-#images are 400x400
-#GUIdev---------------------------------------------------------------<<<<<<<<<<<<
-#vars for GUI
+
+
 #word being geussed
 word = StringVar()
 #hidden string for gui
@@ -140,35 +180,44 @@ wrongGeussesVar = StringVar()
 failedAttempts = StringVar() #should this be intVar???
 
 
-####>>>>----------------------Buttons and Labels----------------------<<<<<<<<
+#using an 8 column by 6 row grid??
+#images are 400x400
 photoPreview = ttk.Label(mainFrame, width=50, textvariable=updateImage)
 photoPreview.grid(column=0, row=0, columnspan=4, rowspan=4, sticky=(N, S, E, W))
-#correct geussed letters
+
 #displays the hidden word array
 lettersGeussedCorrect = ttk.Label(mainFrame, textvariable=hiddenWordList)
 lettersGeussedCorrect.grid(column=0, row=5, columnspan=4, sticky=S)
 lettersGeussedCorrect.config(font=("Courier", 25)) #<<----changes font size
+
 #button for a new game
 button1 = ttk.Button(mainFrame, text='New Game', command=gameStartSetup)
 button1.grid(column=5, row=5, sticky=E)
+
 #label stating attempts made
 attemptsMade = ttk.Label(mainFrame, text="Remaining Attempts: ")
 attemptsMade.grid(column=4, row=0, sticky=(N, W))
+
 #label to diplay attempts
 attemptedGeusses = ttk.Label(mainFrame, textvariable=failedAttempts)
 attemptedGeusses.grid(column=5, row=0, sticky=(N, W))
+
 #label to head letters already geussed
 alreadyGeussed = ttk.Label(mainFrame, text='You have already geussed these letters:')
 alreadyGeussed.grid(column=4, row=0, sticky=(S, W))
+
 #displays all the letters geussed that are wrong
 wrongGeusses = ttk.Label(mainFrame, textvariable=wrongGeussesVar)
 wrongGeusses.grid(column=4, row=1, sticky=W)
 wrongGeusses.config(font=("Courier", 15)) #<<--------changes font size
+
 #label to display previous geusses
 #text entery to submit geusses
 textEntry = ttk.Entry(mainFrame, textvariable=gameDriver)
 textEntry.grid(column=4, row=2, sticky=W)
 textEntry.bind("<Return>", lambda e: gameDriver())
+
+
 
 #init the first game on startup
 gameStartSetup()
