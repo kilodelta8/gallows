@@ -45,7 +45,6 @@ def randomWord():
         randNum = random.randrange(0, (len(backupList))) #choose random word from backup list
         return backupList[randNum]    #return random word
 
-
 #converts the StringVar() string to a list, because lists are easier to update.  LOL!
 def stringToList(stringToConvert):
     newList = []                 #init a empty list
@@ -86,17 +85,13 @@ def initHiddenWordList(word):#for gui
         hidden += '-'              #for each iter add a "-" to the string 
     hiddenWordList.set(hidden)     #set the string to the StringVar()
 
-#<--------------TEST--------------------->
+#Updates the image
 def updateImage(num):
     global images
     im = images[num]
     im.image = im
-    #photoPreview.delete()
     photoPreview.configure(image = im)
-    #return im
     
-#<--------------TEST--------------------->
-
 #Initialize/New Game
 #Text Entry Box drives entire game
 def gameDriver():
@@ -128,23 +123,10 @@ def gameStartSetup():
     initHiddenWordList(newWord)   #set hidden word list to size of randWord
     failedAttempts.set('8')       #set failed attempts to 8
     wrongGeussesVar.set('')       #set wrong geusses to empty
-    #update_idletasks(mainFrame)<--------<<<-??????????
-    #print("gameStartSetup() function hit.....") #alert me via CLI this func executed
     
 #using an 8 column by 6 row grid??
 #images are 400x400
 #GUIdev---------------------------------------------------------------<<<<<<<<<<<<
-'''
-root = Tk()
-root.title("Gallows")
-#setup the main frame to hold all widgets
-mainFrame = ttk.Frame(root, padding="3 3 12 12", height=400, width=800)
-mainFrame.grid(column=0, row=0, sticky=(N, S, E, W))
-#if window resized, expand to take up extra space
-#root.columnconfigure(0, weight=1)
-#root.rowconfigure(0, weight=1)
-'''
-
 #vars for GUI
 #word being geussed
 word = StringVar()
@@ -157,17 +139,10 @@ wrongGeussesVar = StringVar()
 #var to hold the amount of attempts made
 failedAttempts = StringVar() #should this be intVar???
 
-gallowsVar = StringVar()
 
-####>>>>------------------------------------------------Buttons and Labels----<<<<<<<<
-#<<<------------------------------------------->>>
+####>>>>----------------------Buttons and Labels----------------------<<<<<<<<
 photoPreview = ttk.Label(mainFrame, width=50, textvariable=updateImage)
-photoPreview.grid(column=0, row=0, columnspan=4, rowspan=4, sticky=(N, S, E, W))#
-#photoPreview.image = updateImage(8)
-#<<<--------------------------------------------------------------->>>^^^
-#photoPreview.grid_propagate(False)#<--supposed to stop resizing of label widget, but fails to do so.
-                                  # I used whitespace in the gallows tuple instead.
-
+photoPreview.grid(column=0, row=0, columnspan=4, rowspan=4, sticky=(N, S, E, W))
 #correct geussed letters
 #displays the hidden word array
 lettersGeussedCorrect = ttk.Label(mainFrame, textvariable=hiddenWordList)
@@ -176,8 +151,7 @@ lettersGeussedCorrect.config(font=("Courier", 25)) #<<----changes font size
 #button for a new game
 button1 = ttk.Button(mainFrame, text='New Game', command=gameStartSetup)
 button1.grid(column=5, row=5, sticky=E)
-
-#
+#label stating attempts made
 attemptsMade = ttk.Label(mainFrame, text="Remaining Attempts: ")
 attemptsMade.grid(column=4, row=0, sticky=(N, W))
 #label to diplay attempts
@@ -190,15 +164,12 @@ alreadyGeussed.grid(column=4, row=0, sticky=(S, W))
 wrongGeusses = ttk.Label(mainFrame, textvariable=wrongGeussesVar)
 wrongGeusses.grid(column=4, row=1, sticky=W)
 wrongGeusses.config(font=("Courier", 15)) #<<--------changes font size
-#
 #label to display previous geusses
 #text entery to submit geusses
 textEntry = ttk.Entry(mainFrame, textvariable=gameDriver)
 textEntry.grid(column=4, row=2, sticky=W)
 textEntry.bind("<Return>", lambda e: gameDriver())
 
-
-#photoPreview.configure(image = im)
 #init the first game on startup
 gameStartSetup()
 root.mainloop()
