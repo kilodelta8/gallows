@@ -15,7 +15,23 @@ from tkinter import ttk
 from randomwordgenerator import randomwordgenerator
 import random
 
+root = Tk()
+root.title("Gallows")
+#setup the main frame to hold all widgets
+mainFrame = ttk.Frame(root, padding="3 3 12 12", height=400, width=800)
+mainFrame.grid(column=0, row=0, sticky=(N, S, E, W))
 
+#global
+images = [PhotoImage(file='C:\dev\gallows\\resources\\youWin.gif'), 
+    PhotoImage(file='C:\dev\gallows\\resources\\youLost.gif'), 
+    PhotoImage(file='C:\dev\gallows\\resources\\008.gif'), 
+    PhotoImage(file='C:\dev\gallows\\resources\\007.gif'), 
+    PhotoImage(file='C:\dev\gallows\\resources\\006.gif'), 
+    PhotoImage(file='C:\dev\gallows\\resources\\005.gif'), 
+    PhotoImage(file='C:\dev\gallows\\resources\\004.gif'), 
+    PhotoImage(file='C:\dev\gallows\\resources\\003.gif'), 
+    PhotoImage(file='C:\dev\gallows\\resources\\002.gif'), 
+    PhotoImage(file='C:\dev\gallows\\resources\\001.gif')]
 
 #fetch random word from internet, or backup text list
 def randomWord():
@@ -29,143 +45,6 @@ def randomWord():
         randNum = random.randrange(0, (len(backupList))) #choose random word from backup list
         return backupList[randNum]    #return random word
 
-#Setters
-def updateGallows(num): # Main imagery, this will get replaced with the GIF pictures
-    #print(num)
-    #backwards = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]#because Im too lazy to reorder the ascii art
-    gallows = (#tuple of ascii art
-    '''
-
-
-
-        YOU WIN!!!            
-                              
-        GAME OVER             
-       play again?
-
-
-    ''',
-    '''
-    |||||||||||||||           
-    |||           |           
-    |||                       
-    |||                       
-    |||                       
-    |||                       
-    |||                       
-    |||                       
-    ========================  
-    ''',
-    '''
-    |||||||||||||||           
-    |||           |           
-    |||           O           
-    |||                       
-    |||                       
-    |||                       
-    |||                       
-    |||                       
-    ========================  
-    ''',
-    '''
-    |||||||||||||||           
-    |||           |           
-    |||           O           
-    |||          ---          
-    |||                       
-    |||                       
-    |||                       
-    |||                       
-    ========================  
-    ''',
-   '''
-    |||||||||||||||           
-    |||           |           
-    |||           O           
-    |||         /---\        
-    |||                      
-    |||                       
-    |||                       
-    |||                       
-    ========================  
-    ''',
-   '''
-    |||||||||||||||           
-    |||           |           
-    |||           O           
-    |||         /---\         
-    |||        /  |  \        
-    |||                       
-    |||                       
-    |||                       
-    ========================  
-    ''',
-    '''
-    |||||||||||||||           
-    |||           |           
-    |||           O           
-    |||         /---\         
-    |||        /  |  \        
-    |||           |           
-    |||                       
-    |||                       
-    ========================  
-    ''',
-    '''
-    |||||||||||||||           
-    |||           |           
-    |||           O           
-    |||         /---\         
-    |||        /  |  \        
-    |||           |           
-    |||          / \          
-    |||                       
-    ========================  
-    ''',
-    '''
-    |||||||||||||||           
-    |||           |           
-    |||           O           
-    |||         /---\         
-    |||        /  |  \        
-    |||           |           
-    |||          / \          
-    |||         /   \         
-    ========================  
-    ''',
-    '''
-
-
-
-        YOU LOSE!!!           
-                              
-                     
-        play again?
-
-
-    '''
-    )
-    if num == 8:
-        gallowsVar.set(gallows[1])
-    elif num == 7:
-        gallowsVar.set(gallows[2])
-    elif num == 6:
-        gallowsVar.set(gallows[3])#<<----------I really wish Python had a switch statement
-    elif num == 5:
-        gallowsVar.set(gallows[4])
-    elif num == 4:
-        gallowsVar.set(gallows[5])
-    elif num == 3:
-        gallowsVar.set(gallows[6])
-    elif num == 2:
-        gallowsVar.set(gallows[7])
-    elif num == 1:
-        gallowsVar.set(gallows[8])
-    elif num == 0:
-        gallowsVar.set(gallows[9])
-    else:    
-        gallowsVar.set(gallows[0])#set the StringVar() to gallow tuple index+1
-    
 
 #converts the StringVar() string to a list, because lists are easier to update.  LOL!
 def stringToList(stringToConvert):
@@ -207,6 +86,17 @@ def initHiddenWordList(word):#for gui
         hidden += '-'              #for each iter add a "-" to the string 
     hiddenWordList.set(hidden)     #set the string to the StringVar()
 
+#<--------------TEST--------------------->
+def updateImage(num):
+    global images
+    im = images[num]
+    im.image = im
+    #photoPreview.delete()
+    photoPreview.configure(image = im)
+    #return im
+    
+#<--------------TEST--------------------->
+
 #Initialize/New Game
 #Text Entry Box drives entire game
 def gameDriver():
@@ -224,15 +114,15 @@ def gameDriver():
         wrong.append(geuss)            #add invalid geuss to wrong geuss list
     hiddenWordList.set(listToString(hidden)) #convert list back to string for StringVar()
     wrongGeussesVar.set(listToString(wrong)) #convert list back to string for StringVar()
-    updateGallows(numAttempts())
+    updateImage(numAttempts())
     #root.update_idletasks()#<--------<<<-??????????
     if hidden == secretWord:
         wrong.append(" YOU WIN!!!!")#logic in this IF statement needs revisted hard!
-        updateGallows(-1)
+        updateImage(-1)
 
 #init all variables and the such when the script first executes ad when button pressed
 def gameStartSetup():
-    updateGallows(8)
+    updateImage(8)
     newWord = randomWord()        #generate a random word
     word.set(newWord)             #set StringVar to randWord
     initHiddenWordList(newWord)   #set hidden word list to size of randWord
@@ -243,8 +133,8 @@ def gameStartSetup():
     
 #using an 8 column by 6 row grid??
 #images are 400x400
-
 #GUIdev---------------------------------------------------------------<<<<<<<<<<<<
+'''
 root = Tk()
 root.title("Gallows")
 #setup the main frame to hold all widgets
@@ -253,6 +143,7 @@ mainFrame.grid(column=0, row=0, sticky=(N, S, E, W))
 #if window resized, expand to take up extra space
 #root.columnconfigure(0, weight=1)
 #root.rowconfigure(0, weight=1)
+'''
 
 #vars for GUI
 #word being geussed
@@ -269,40 +160,12 @@ failedAttempts = StringVar() #should this be intVar???
 gallowsVar = StringVar()
 
 ####>>>>------------------------------------------------Buttons and Labels----<<<<<<<<
-'''
-#photos for game
-#gallows 1
-photo1 = PhotoImage(file='C:\dev\hangpy\\resources\\001.gif')
-photo2 = PhotoImage(file='C:\dev\hangpy\\resources\\002.gif')
-photo3 = PhotoImage(file='C:\dev\hangpy\\resources\\003.gif')
-photo4 = PhotoImage(file='C:\dev\hangpy\\resources\\004.gif')
-photo5 = PhotoImage(file='C:\dev\hangpy\\resources\\005.gif')
-photo6 = PhotoImage(file='C:\dev\hangpy\\resources\\006.gif')
-photo7 = PhotoImage(file='C:\dev\hangpy\\resources\\007.gif')
-photo8 = PhotoImage(file='C:\dev\hangpy\\resources\\008.gif')
-photoPlayAgain = PhotoImage(file='C:\dev\hangpy\\resources\\playAgain.gif')
-photoYouLose = PhotoImage(file='C:\dev\hangpy\\resources\\youLost.gif')
-photoYouWin = PhotoImage(file='C:\dev\hangpy\\resources\\youWin.gif')
-
-photo1.image = photo1 # keep a reference!
-photo2.image = photo2 # keep a reference!
-photo3.image = photo3 # keep a reference!
-photo4.image = photo4 # keep a reference!
-photo5.image = photo5 # keep a reference!
-photo6.image = photo6 # keep a reference!
-photo7.image = photo7 # keep a reference!
-photo8.image = photo8 # keep a reference!
-photoPlayAgain.image = photoPlayAgain # keep a reference!
-photoYouLose.image = photoYouLose # keep a reference!
-photoYouWin.image = photoYouWin # keep a reference!
-'''
 #<<<------------------------------------------->>>
-photoPreview = ttk.Label(mainFrame, width=50, textvariable=gallowsVar)#
-#<<<------------------------------------------->>>
-#<<<--------------------------------------------------------------->>>
+photoPreview = ttk.Label(mainFrame, width=50, textvariable=updateImage)
 photoPreview.grid(column=0, row=0, columnspan=4, rowspan=4, sticky=(N, S, E, W))#
+#photoPreview.image = updateImage(8)
 #<<<--------------------------------------------------------------->>>^^^
-photoPreview.grid_propagate(False)#<--supposed to stop resizing of label widget, but fails to do so.
+#photoPreview.grid_propagate(False)#<--supposed to stop resizing of label widget, but fails to do so.
                                   # I used whitespace in the gallows tuple instead.
 
 #correct geussed letters
@@ -334,6 +197,8 @@ textEntry = ttk.Entry(mainFrame, textvariable=gameDriver)
 textEntry.grid(column=4, row=2, sticky=W)
 textEntry.bind("<Return>", lambda e: gameDriver())
 
+
+#photoPreview.configure(image = im)
 #init the first game on startup
 gameStartSetup()
 root.mainloop()
